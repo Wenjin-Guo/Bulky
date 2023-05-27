@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BulkyWeb.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BulkyWeb.Data
 {
@@ -8,5 +9,8 @@ namespace BulkyWeb.Data
         {
             
         }
+
+        //create "Categories" table from category.cs - - ->then in package Manager console add-migration , update-database
+        public DbSet<Category> Categories { get; set; }
     }
 }

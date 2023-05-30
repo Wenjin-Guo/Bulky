@@ -6,12 +6,12 @@
             <h2 class="text-primary">Create Category</h2>
         </div>
         <div class="mb-3 row">
-            <label>Category Name</label>
-            <input type="text" class="form-control"/>
+            <label asp-for="Name">Category Name</label>
+            <input asp-for="Name" class="form-control"/>
         </div>
         <div class="mb-3 row">
-            <label>Display Order</label>
-            <input type="text" class="form-control" />
+            <label asp-for="DisplayOrder">Display Order</labe>
+            <input asp-for="DisplayOrder" class="form-control" />
         </div>
 
         <div class="row">
@@ -19,7 +19,7 @@
                 <button type="submit" class="btn btn-primary form-control" >Create</button>
             </div>
             <div class="col-6">
-                <a asp-controller="Category" asp-action="Index" class="btn btn-outline-secondary form-control" >Back to List</a>
+                <a asp-controller="Category" asp-action="Index" class="btn btn-secondary border form-control" >Back to List</a>
             </div>
         </div>
     </div>

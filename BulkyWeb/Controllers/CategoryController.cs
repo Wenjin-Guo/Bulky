@@ -22,5 +22,12 @@ namespace BulkyWeb.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public IActionResult Create(Category obj)   //need to pass the object from create.cshtml
+        {
+            _db.Categories.Add(obj);       //keep track of inputs needed to be add to the database
+            _db.SaveChanges();              //in database create the category obj
+            return RedirectToAction("Index");   //redirect page to category Index.cshtml
+        }
     }
 }

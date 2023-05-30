@@ -29,7 +29,11 @@ namespace BulkyWeb.Controllers
             {
                 ModelState.AddModelError("name", "The display order cannot exactly match the name");
             }
-            if(ModelState.IsValid) 
+            if (obj.Name != null && obj.Name.ToLower() == "test")
+            {
+                ModelState.AddModelError("name", "Test is not a valid value");
+            }
+            if (ModelState.IsValid) 
             {
                 _db.Categories.Add(obj);       //keep track of inputs needed to be add to the database
                 _db.SaveChanges();              //in database create the category obj

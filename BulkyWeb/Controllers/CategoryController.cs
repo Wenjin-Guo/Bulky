@@ -50,12 +50,14 @@ namespace BulkyWeb.Controllers
             {
                 return NotFound();
             }
-            Category categroFromDb = _db.Categories.Find(id);
-            if(categroFromDb == null)
+            Category? categoryFromDb = _db.Categories.Find(id);
+            //Category? categoryFromDb1 = _db.Categories.FirstOrDefault(u=>u.Id == id);      //another 2 methods to find the id
+            //Category? categoryFromDb2 = _db.Categories.Where(u=>u.Id==id).FirstOrDefault();
+            if(categoryFromDb == null)
             {
                 return NotFound();
             }
-            return View(categroFromDb);
+            return View(categoryFromDb);
         }
         [HttpPost]
         public IActionResult Edit(Category obj)   //need to pass the object from create.cshtml

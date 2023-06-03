@@ -37,6 +37,7 @@ namespace BulkyWeb.Controllers
             {
                 _db.Categories.Add(obj);       //keep track of inputs needed to be add to the database
                 _db.SaveChanges();              //in database create the category obj
+                TempData["success"] = "Category created successfully.";
                 return RedirectToAction("Index");   //redirect page to category Index.cshtml
             }
             else
@@ -66,6 +67,7 @@ namespace BulkyWeb.Controllers
             {
                 _db.Categories.Update(obj);       //keep track of inputs needed to be add to the database
                 _db.SaveChanges();              //in database create the category obj
+                TempData["success"] = "Category edited successfully.";
                 return RedirectToAction("Index");   //redirect page to category Index.cshtml
             }
             else
@@ -98,6 +100,7 @@ namespace BulkyWeb.Controllers
             }
             _db.Categories.Remove(obj);
             _db.SaveChanges();
+            TempData["success"] = "Category deleted successfully.";
             return RedirectToAction("Index");
         }
     }

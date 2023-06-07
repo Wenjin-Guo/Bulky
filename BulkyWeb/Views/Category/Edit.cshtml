@@ -1,11 +1,17 @@
 ﻿@model Category
+<div class="card shadow boarder-0  mt4">
+    <div class="card-header bg-secondary bg-gradient m-lg-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Edit Category</h2>
+            </div>
+        </div>
+    </div>
 
 <form method="post">
     @*<input asp-for="Id" hidden />*@       @*because the name is "Id" primary key, so this line of code doesnot needed*@
     <div class="border p-3 mt-4">
-        <div class="row pb-2">
-            <h2 class="text-primary">Edit Category</h2>
-        </div>
+        
         <div class="mb-3 row">
             <label asp-for="Name">Category Name</label>
             <input asp-for="Name" class="form-control" />
@@ -30,7 +36,7 @@
     @*<div asp-validation-summary="ModelOnly">Creation Failed: </div>*@
 
 </form>
-
+</div>
 @section Scripts{
     @{
         <partial name="_ValidationScriptsPartial" />

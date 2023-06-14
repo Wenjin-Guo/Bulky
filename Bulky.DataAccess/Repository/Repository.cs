@@ -24,7 +24,7 @@ namespace Bulky.DataAccess.Repository
         public void Add(T entity)
         {
             dbSet.Add(entity);
-            throw new NotImplementedException();
+            
         }
 
         public void Delete(T entity)

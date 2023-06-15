@@ -3,8 +3,9 @@ using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BulkyWeb.Controllers
+namespace BulkyWeb.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
         //ApplicationDbContext db = new ApplicationDbContext();
@@ -26,7 +27,7 @@ namespace BulkyWeb.Controllers
         [HttpPost]
         public IActionResult Create(Category obj)   //need to pass the object from create.cshtml
         {
-            if(obj.Name == obj.DisplayOrder.ToString())
+            if (obj.Name == obj.DisplayOrder.ToString())
             {
                 ModelState.AddModelError("name", "The display order cannot exactly match the name");
             }
@@ -34,7 +35,7 @@ namespace BulkyWeb.Controllers
             {
                 ModelState.AddModelError("name", "Test is not a valid value");
             }
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
                 _categoryRepo.Add(obj);       //keep track of inputs needed to be add to the database
                 _categoryRepo.Save();              //in database create the category obj
@@ -52,10 +53,10 @@ namespace BulkyWeb.Controllers
             {
                 return NotFound();
             }
-            Category? categoryFromDb = _categoryRepo.Get(u=>u.Id == id);
+            Category? categoryFromDb = _categoryRepo.Get(u => u.Id == id);
             //Category? categoryFromDb1 = _db.Categories.FirstOrDefault(u=>u.Id == id);      //another 2 methods to find the id
             //Category? categoryFromDb2 = _db.Categories.Where(u=>u.Id==id).FirstOrDefault();
-            if(categoryFromDb == null)
+            if (categoryFromDb == null)
             {
                 return NotFound();
             }
@@ -95,8 +96,8 @@ namespace BulkyWeb.Controllers
         public IActionResult DeletePOST(int? id)   //need to pass the object from create.cshtml
         {
             Category obj = _categoryRepo.Get(u => u.Id == id);
-            if(obj == null) 
-            { 
+            if (obj == null)
+            {
                 return NotFound();
             }
             _categoryRepo.Delete(obj);

@@ -3,6 +3,7 @@ using Bulky.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bulky.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230618021643_1stTime")]
+    partial class _1stTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,10 +83,6 @@ namespace Bulky.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<double>("ListPrice")
                         .HasColumnType("float");
 
@@ -118,7 +117,6 @@ namespace Bulky.DataAccess.Migrations
                             Id = 1,
                             CategoryId = 1,
                             Description = "Absolutely the best baby soap",
-                            ImageUrl = "",
                             ListPrice = 20.0,
                             Manufacturer = "Delta",
                             Price = 18.0,
@@ -132,7 +130,6 @@ namespace Bulky.DataAccess.Migrations
                             Id = 2,
                             CategoryId = 1,
                             Description = "xcvwert3rsdf",
-                            ImageUrl = "",
                             ListPrice = 20.0,
                             Manufacturer = "Adidas",
                             Price = 18.0,
@@ -146,7 +143,6 @@ namespace Bulky.DataAccess.Migrations
                             Id = 3,
                             CategoryId = 2,
                             Description = "e56cdzcwer5tdsfgdf",
-                            ImageUrl = "",
                             ListPrice = 20.0,
                             Manufacturer = "Spicy Pot",
                             Price = 18.0,
@@ -160,7 +156,6 @@ namespace Bulky.DataAccess.Migrations
                             Id = 4,
                             CategoryId = 3,
                             Description = "sdafgrtuyrejs",
-                            ImageUrl = "",
                             ListPrice = 20.0,
                             Manufacturer = "Yiwu",
                             Price = 18.0,

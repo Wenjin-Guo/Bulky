@@ -26,15 +26,17 @@ namespace Bulky.DataAccess.Data
             modelBuilder.Entity<Product>().HasData(
                 new Product
                 {
-                    Id = 1, 
+                    Id = 1,
                     Title = "Baby sope",
                     Description = "Absolutely the best baby soap",
                     UPCode = "SWD999901",
-                    Category = "Baby",
+                    Manufacturer = "Delta",
                     ListPrice = 20,
                     Price = 18,
                     Price50 = 15,
                     Price100 = 13,
+                    CategoryId = 1,
+                    ImageUrl = "",
                 },
                 new Product
                 {
@@ -42,11 +44,13 @@ namespace Bulky.DataAccess.Data
                     Title = "Bike",
                     Description = "xcvwert3rsdf",
                     UPCode = "SWD999902",
-                    Category = "Sport",
+                    Manufacturer = "Adidas",
                     ListPrice = 20,
                     Price = 18,
                     Price50 = 15,
                     Price100 = 13,
+                    CategoryId = 1,
+                    ImageUrl = "",
                 },
 
                 new Product
@@ -55,11 +59,13 @@ namespace Bulky.DataAccess.Data
                     Title = "Rice cooker",
                     Description = "e56cdzcwer5tdsfgdf",
                     UPCode = "SWD999903",
-                    Category = "Kitchen",
+                    Manufacturer = "Spicy Pot",
                     ListPrice = 20,
                     Price = 18,
                     Price50 = 15,
                     Price100 = 13,
+                    CategoryId = 2,
+                    ImageUrl = "",
                 },
 
                 new Product
@@ -68,11 +74,13 @@ namespace Bulky.DataAccess.Data
                     Title = "T shirt",
                     Description = "sdafgrtuyrejs",
                     UPCode = "SWD999904",
-                    Category = "Cloth",
+                    Manufacturer = "Yiwu",
                     ListPrice = 20,
                     Price = 18,
                     Price50 = 15,
                     Price100 = 13,
+                    CategoryId = 3,
+                    ImageUrl = "",
                 }
 
             );

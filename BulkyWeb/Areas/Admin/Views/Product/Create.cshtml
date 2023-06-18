@@ -1,6 +1,6 @@
 ﻿@model Product
 
-<div class="card shadow boarder-0 mt4">
+<div class="card shadow boarder-0 mt-4">
     <div class="card-header bg-secondary bg-gradient m-lg-0 py-3" >
         <div class="row">
             <div class="col-12 text-center">
@@ -21,7 +21,7 @@
         </div>
         <div class="mb-3 row">
             <label asp-for="Description">Description</label>
-            <input asp-for="Description" class="form-control" />
+            <textarea asp-for="Description" class="form-control" ></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
         <div class="mb-3 row">
@@ -30,9 +30,9 @@
             <span asp-validation-for="UPCode" class="text-danger"></span>
         </div>
         <div class="mb-3 row">
-            <label asp-for="Category">Category</label>
-            <input asp-for="Category" class="form-control" />
-            <span asp-validation-for="Category" class="text-danger"></span>
+            <label asp-for="Manufacturer">Manufacturer</label>
+            <input asp-for="Manufacturer" class="form-control" />
+            <span asp-validation-for="Manufacturer" class="text-danger"></span>
         </div>
         <div class="mb-3 row">
             <label asp-for="ListPrice">List Price</label>

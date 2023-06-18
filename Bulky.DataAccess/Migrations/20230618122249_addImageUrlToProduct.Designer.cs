@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bulky.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230615123600_addProductsToDb")]
-    partial class addProductsToDb
+    [Migration("20230618122249_addImageUrlToProduct")]
+    partial class addImageUrlToProduct
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -74,21 +74,25 @@ namespace Bulky.DataAccess.Migrations
             modelBuilder.Entity("Bulky.Models.Product", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("ListPrice")
                         .HasColumnType("float");
+
+                    b.Property<string>("Manufacturer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
@@ -115,9 +119,11 @@ namespace Bulky.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            Category = "Baby",
+                            CategoryId = 1,
                             Description = "Absolutely the best baby soap",
+                            ImageUrl = "",
                             ListPrice = 20.0,
+                            Manufacturer = "Delta",
                             Price = 18.0,
                             Price100 = 13.0,
                             Price50 = 15.0,
@@ -127,9 +133,11 @@ namespace Bulky.DataAccess.Migrations
                         new
                         {
                             Id = 2,
-                            Category = "Sport",
+                            CategoryId = 1,
                             Description = "xcvwert3rsdf",
+                            ImageUrl = "",
                             ListPrice = 20.0,
+                            Manufacturer = "Adidas",
                             Price = 18.0,
                             Price100 = 13.0,
                             Price50 = 15.0,
@@ -139,9 +147,11 @@ namespace Bulky.DataAccess.Migrations
                         new
                         {
                             Id = 3,
-                            Category = "Kitchen",
+                            CategoryId = 2,
                             Description = "e56cdzcwer5tdsfgdf",
+                            ImageUrl = "",
                             ListPrice = 20.0,
+                            Manufacturer = "Spicy Pot",
                             Price = 18.0,
                             Price100 = 13.0,
                             Price50 = 15.0,
@@ -151,15 +161,28 @@ namespace Bulky.DataAccess.Migrations
                         new
                         {
                             Id = 4,
-                            Category = "Cloth",
+                            CategoryId = 3,
                             Description = "sdafgrtuyrejs",
+                            ImageUrl = "",
                             ListPrice = 20.0,
+                            Manufacturer = "Yiwu",
                             Price = 18.0,
                             Price100 = 13.0,
                             Price50 = 15.0,
                             Title = "T shirt",
                             UPCode = "SWD999904"
                         });
+                });
+
+            modelBuilder.Entity("Bulky.Models.Product", b =>
+                {
+                    b.HasOne("Bulky.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }

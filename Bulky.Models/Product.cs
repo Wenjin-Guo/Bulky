@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Bulky.Models
 {
@@ -18,7 +19,7 @@ namespace Bulky.Models
         public string Description { get; set; }
         public string UPCode { get; set; }
         [Required]
-        public string Category { get; set; }
+        public string Manufacturer { get; set; }
         [Required]
         [Display(Name = "List Price")]
         [Range(1,1000)]
@@ -36,6 +37,9 @@ namespace Bulky.Models
         [Range(1, 1000)]
         public double Price100 { get; set; }
 
-
+        public int CategoryId { get; set; }
+        [ForeignKey("Id")]
+        public Category Category { get; set; }
+        public string ImageUrl { get; set; }
     }
 }

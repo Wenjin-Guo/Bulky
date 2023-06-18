@@ -1,0 +1,61 @@
+﻿@model Product
+<div class="card shadow boarder-0 mt4">
+    <div class="card-header bg-secondary bg-gradient m-lg-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Create Product</h2>
+            </div>
+        </div>
+    </div>
+
+<form method="post">
+    @*<input asp-for="Id" hidden />*@       @*because the name is "Id" primary key, so this line of code doesnot needed*@
+    <div class="border p-3 mt-4">
+
+        <div class="mb-3 row">
+            <label asp-for="Title">Product Name</label>
+            <input asp-for="Title" disabled class="form-control" />
+        </div>
+        <div class="mb-3 row">
+            <label asp-for="Description">Description</label>
+            <input asp-for="Description" disabled class="form-control" />
+        </div>
+        <div class="mb-3 row">
+            <label asp-for="UPCode">UPC</label>
+            <input asp-for="UPCode" disabled class="form-control" />
+        </div>
+        <div class="mb-3 row">
+            <label asp-for="Category">Category</label>
+            <input asp-for="Category" disabled class="form-control" />
+        </div>
+        <div class="mb-3 row">
+            <label asp-for="ListPrice">ListPrice</label>
+            <input asp-for="ListPrice" disabled class="form-control" />
+        </div>
+        <div class="mb-3 row">
+            <label asp-for="Price">Price</label>
+            <input asp-for="Price" disabled class="form-control" />
+        </div>
+        <div class="mb-3 row">
+            <label asp-for="Price50">Price50</label>
+            <input asp-for="Price50" disabled class="form-control" />
+        </div>
+        <div class="mb-3 row">
+            <label asp-for="Price100">Price100</label>
+            <input asp-for="Price100" disabled class="form-control" />
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <button type="submit" class="btn btn-danger form-control">Delete</button>
+            </div>
+            <div class="col-6">
+                <a asp-controller="Product" asp-action="Index" class="btn btn-secondary border form-control">Back to List</a>
+            </div>
+        </div>
+    </div>
+    <div asp-validation-summary="All"></div>
+    @*<div asp-validation-summary="ModelOnly">Creation Failed: </div>*@
+
+</form>
+</div>

@@ -1,6 +1,7 @@
 ﻿using Bulky.DataAccess.Data;
 using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
+using Bulky.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -18,27 +19,35 @@ namespace BulkyWeb.Areas.Admin.Controllers
         public IActionResult Index()
         {
             List<Product> objProductList = _unitOfWork.Product.GetAll().ToList();
-            //use Projection in EF core to retrieve list of category name
-            IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category.GetAll().Select
-                (u=>new SelectListItem
-            {
-                Text = u.Name,
-                Value = u.Id.ToString(),
-            });
+           
             return View(objProductList);
         }
 
         public IActionResult Create()
         {
-            return View();
+            //use Projection in EF core to retrieve list of category name
+            IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category.GetAll().Select
+                (u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString(),
+                });
+            ViewBag.CategoryList = CategoryList;
+            //ViewData["CategoryList"] = CategoryList;
+            ProductVM productVM = new()     //need to pass product to model
+            {
+                CategoryList = CategoryList,
+                Product = new Product(),
+            };
+            return View(productVM);
         }
         [HttpPost]
-        public IActionResult Create(Product obj)   //need to pass the object from create.cshtml
+        public IActionResult Create(ProductVM obj)   //need to pass the object from create.cshtml
         {
            
             if (ModelState.IsValid)
             {
-                _unitOfWork.Product.Add(obj);       //keep track of inputs needed to be add to the database
+                _unitOfWork.Product.Add(obj.Product);       //keep track of inputs needed to be add to the database
                 _unitOfWork.Save();              //in database create the product obj
                 TempData["success"] = "Product created successfully.";
                 return RedirectToAction("Index");   //redirect page to product Index.cshtml
@@ -64,11 +73,11 @@ namespace BulkyWeb.Areas.Admin.Controllers
             return View(productFromDb);
         }
         [HttpPost]
-        public IActionResult Edit(Product obj)   //need to pass the object from create.cshtml
+        public IActionResult Edit(ProductVM obj)   //need to pass the object from create.cshtml
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.Product.Update(obj);       //keep track of inputs needed to be add to the database
+                _unitOfWork.Product.Update(obj.Product);       //keep track of inputs needed to be add to the database
                 _unitOfWork.Save();              //in database create the product obj
                 TempData["success"] = "Product edited successfully.";
                 return RedirectToAction("Index");   //redirect page to product Index.cshtml

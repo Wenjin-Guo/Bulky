@@ -1,7 +1,7 @@
-﻿@model Product
+﻿@model ProductVM
 
-<div class="card shadow boarder-0 mt-4">
-    <div class="card-header bg-secondary bg-gradient m-lg-0 py-3" >
+<div class="card shadow boarder-0 my-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3" >
         <div class="row">
             <div class="col-12 text-center">
                 <h2 class="text-white py-2">Create Product</h2>
@@ -11,64 +11,71 @@
 
 
 
- 
-<form method="post">
-    <div class="border p-3">
-        <div class="mb-3 row">
-            <label asp-for="Title">Product Name</label>
-            <input asp-for="Title" class="form-control" />
-            <span asp-validation-for="Title" class="text-danger"></span>
-        </div>
-        <div class="mb-3 row">
-            <label asp-for="Description">Description</label>
-            <textarea asp-for="Description" class="form-control" ></textarea>
-            <span asp-validation-for="Description" class="text-danger"></span>
-        </div>
-        <div class="mb-3 row">
-            <label asp-for="UPCode">UPC</label>
-            <input asp-for="UPCode" class="form-control" />
-            <span asp-validation-for="UPCode" class="text-danger"></span>
-        </div>
-        <div class="mb-3 row">
-            <label asp-for="Manufacturer">Manufacturer</label>
-            <input asp-for="Manufacturer" class="form-control" />
-            <span asp-validation-for="Manufacturer" class="text-danger"></span>
-        </div>
-        <div class="mb-3 row">
-            <label asp-for="ListPrice">List Price</label>
-            <input asp-for="ListPrice" class="form-control" />
-            <span asp-validation-for="ListPrice" class="text-danger"></span>
-        </div>
-        <div class="mb-3 row">
-            <label asp-for="Price">Price</label>
-            <input asp-for="Price" class="form-control" />
-            <span asp-validation-for="Price" class="text-danger"></span>
-        </div>
-        <div class="mb-3 row">
-            <label asp-for="Price50">Price50</label>
-            <input asp-for="Price50" class="form-control" />
-            <span asp-validation-for="Price50" class="text-danger"></span>
-        </div>
-        <div class="mb-3 row">
-            <label asp-for="Price100">Price100</label>
-            <input asp-for="Price100" class="form-control" />
-            <span asp-validation-for="Price100" class="text-danger"></span>
-        </div>
+    <div class="card-body py-4">
+    <form method="post" class="row">
+        <div class="border p-3">
+            <div class="mb-3 row">
+                <label asp-for="Product.Title">Product Name</label>
+                <input asp-for="Product.Title" class="form-control" />
+                <span asp-validation-for="Product.Title" class="text-danger"></span>
+            </div>
+            <div class="mb-3 row">
+                <label asp-for="Product.Description">Description</label>
+                <textarea asp-for="Product.Description" class="form-control"></textarea>
+                <span asp-validation-for="Product.Description" class="text-danger"></span>
+            </div>
+            <div class="mb-3 row">
+                <label asp-for="Product.UPCode">UPC</label>
+                <input asp-for="Product.UPCode" class="form-control" />
+                <span asp-validation-for="Product.UPCode" class="text-danger"></span>
+            </div>
+            <div class="mb-3 row">
+                <label asp-for="Product.Manufacturer">Manufacturer</label>
+                <input asp-for="Product.Manufacturer" class="form-control" />
+                <span asp-validation-for="Product.Manufacturer" class="text-danger"></span>
+            </div>
+            <div class="mb-3 row">
+                <label asp-for="Product.ListPrice">List Price</label>
+                <input asp-for="Product.ListPrice" class="form-control" />
+                <span asp-validation-for="Product.ListPrice" class="text-danger"></span>
+            </div>
+            <div class="mb-3 row">
+                <label asp-for="Product.Price">Price</label>
+                <input asp-for="Product.Price" class="form-control" />
+                <span asp-validation-for="Product.Price" class="text-danger"></span>
+            </div>
+            <div class="mb-3 row">
+                <label asp-for="Product.Price50">Price50</label>
+                <input asp-for="Product.Price50" class="form-control" />
+                <span asp-validation-for="Product.Price50" class="text-danger"></span>
+            </div>
+            <div class="mb-3 row">
+                <label asp-for="Product.Price100">Price100</label>
+                <input asp-for="Product.Price100" class="form-control" />
+                <span asp-validation-for="Product.Price100" class="text-danger"></span>
+            </div>
+            <div class="mb-3 row">
+                <label asp-for="Product.CategoryId"></label>
+                    <select asp-for="Product.CategoryId" asp-item="ViewBag.CategoryList" class="form-select boarder-0 shadow">
+                <option enabled selected>--Select Category--</option>
+                </select>
+                <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+            </div>
 
-        <div class="row">
-            <div class="col-6">
-                <button type="submit" class="btn btn-primary form-control" >Create</button>
-            </div>
-            <div class="col-6">
-                <a asp-controller="Product" asp-action="Index" class="btn btn-secondary border form-control" >Back to List</a>
+            <div class="row py-6">
+                <div class="col-6">
+                    <button type="submit" class="btn btn-primary form-control" >Create</button>
+                </div>
+                <div class="col-6">
+                    <a asp-controller="Product" asp-action="Index" class="btn btn-secondary border form-control" >Back to List</a>
+                </div>
             </div>
         </div>
+        <div asp-validation-summary="All"></div>
+        @*<div asp-validation-summary="ModelOnly">Creation Failed: </div>*@
+
+    </form>
     </div>
-    <div asp-validation-summary="All"></div>
-    @*<div asp-validation-summary="ModelOnly">Creation Failed: </div>*@
-
-</form>
-    
 </div>
     @section Scripts{
         @{

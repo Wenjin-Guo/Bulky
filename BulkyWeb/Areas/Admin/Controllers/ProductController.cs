@@ -18,18 +18,21 @@ namespace BulkyWeb.Areas.Admin.Controllers
         public IActionResult Index()
         {
             List<Product> objProductList = _unitOfWork.Product.GetAll().ToList();
-            //use Projection in EF core to retrieve list of category name
-            IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category.GetAll().Select
-                (u=>new SelectListItem
-            {
-                Text = u.Name,
-                Value = u.Id.ToString(),
-            });
+            
             return View(objProductList);
         }
 
         public IActionResult Create()
         {
+            //use Projection in EF core to retrieve list of category name
+            IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category
+               .GetAll().Select(u => new SelectListItem
+               {
+                   Text = u.Name,
+                   Value = u.Id.ToString()
+               });
+
+            ViewBag.CategoryList = CategoryList;
             return View();
         }
         [HttpPost]
@@ -101,7 +104,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            _unitOfWork.Product.Delete(obj);
+            _unitOfWork.Product.Remove(obj);
             _unitOfWork.Save();
             TempData["success"] = "Product deleted successfully.";
             return RedirectToAction("Index");

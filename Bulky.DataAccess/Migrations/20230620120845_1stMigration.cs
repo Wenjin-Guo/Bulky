@@ -7,7 +7,7 @@
 namespace Bulky.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class _1stTime : Migration
+    public partial class _1stMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,7 +30,8 @@ namespace Bulky.DataAccess.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UPCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -39,14 +40,15 @@ namespace Bulky.DataAccess.Migrations
                     Price = table.Column<double>(type: "float", nullable: false),
                     Price50 = table.Column<double>(type: "float", nullable: false),
                     Price100 = table.Column<double>(type: "float", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_Categories_Id",
-                        column: x => x.Id,
+                        name: "FK_Products_Categories_CategoryId",
+                        column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -65,14 +67,19 @@ namespace Bulky.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "CategoryId", "Description", "ListPrice", "Manufacturer", "Price", "Price100", "Price50", "Title", "UPCode" },
+                columns: new[] { "Id", "CategoryId", "Description", "ImageUrl", "ListPrice", "Manufacturer", "Price", "Price100", "Price50", "Title", "UPCode" },
                 values: new object[,]
                 {
-                    { 1, 1, "Absolutely the best baby soap", 20.0, "Delta", 18.0, 13.0, 15.0, "Baby sope", "SWD999901" },
-                    { 2, 1, "xcvwert3rsdf", 20.0, "Adidas", 18.0, 13.0, 15.0, "Bike", "SWD999902" },
-                    { 3, 2, "e56cdzcwer5tdsfgdf", 20.0, "Spicy Pot", 18.0, 13.0, 15.0, "Rice cooker", "SWD999903" },
-                    { 4, 3, "sdafgrtuyrejs", 20.0, "Yiwu", 18.0, 13.0, 15.0, "T shirt", "SWD999904" }
+                    { 1, 1, "Absolutely the best baby soap", "", 20.0, "Delta", 18.0, 13.0, 15.0, "Baby sope", "SWD999901" },
+                    { 2, 1, "xcvwert3rsdf", "", 20.0, "Adidas", 18.0, 13.0, 15.0, "Bike", "SWD999902" },
+                    { 3, 2, "e56cdzcwer5tdsfgdf", "", 20.0, "Spicy Pot", 18.0, 13.0, 15.0, "Rice cooker", "SWD999903" },
+                    { 4, 3, "sdafgrtuyrejs", "", 20.0, "Yiwu", 18.0, 13.0, 15.0, "T shirt", "SWD999904" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_CategoryId",
+                table: "Products",
+                column: "CategoryId");
         }
 
         /// <inheritdoc />

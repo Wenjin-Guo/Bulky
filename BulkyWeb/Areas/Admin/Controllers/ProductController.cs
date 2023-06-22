@@ -19,11 +19,10 @@ namespace BulkyWeb.Areas.Admin.Controllers
         public IActionResult Index()
         {
             List<Product> objProductList = _unitOfWork.Product.GetAll().ToList();
-            
             return View(objProductList);
         }
 
-        public IActionResult Create()
+        public IActionResult Upsert(int? id)
         {
             //use Projection in EF core to retrieve list of category name
             IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category
@@ -32,18 +31,28 @@ namespace BulkyWeb.Areas.Admin.Controllers
                    Text = u.Name,
                    Value = u.Id.ToString()
                });
-
             //ViewBag.CategoryList = CategoryList;
-            ViewData["CategoryList"] = CategoryList;
+            //ViewData["CategoryList"] = CategoryList;
             ProductVM productVM = new()
             {
                 CategoryList = CategoryList,
                 Product = new Product()
             };
-            return View(productVM);
+            if(id==null || id == 0)
+            {
+                //create
+                return View(productVM);
+            }
+            else
+            {
+                //update
+                productVM.Product = _unitOfWork.Product.Get(u=>u.Id==id);
+                return View(productVM);
+            }
+            
         }
         [HttpPost]
-        public IActionResult Create(ProductVM obj)   //need to pass the object from create.cshtml
+        public IActionResult Upsert(ProductVM obj, IFormFile? file)   //need to pass the object from create.cshtml
         {
            
             if (ModelState.IsValid)
@@ -64,21 +73,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
                 return View(obj);
             }
         }
-        public IActionResult Edit(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            Product? productFromDb = _unitOfWork.Product.Get(u => u.Id == id);
-            //Product? productFromDb1 = _db.Categories.FirstOrDefault(u=>u.Id == id);      //another 2 methods to find the id
-            //Product? productFromDb2 = _db.Categories.Where(u=>u.Id==id).FirstOrDefault();
-            if (productFromDb == null)
-            {
-                return NotFound();
-            }
-            return View(productFromDb);
-        }
+
         [HttpPost]
         public IActionResult Edit(ProductVM obj)   //need to pass the object from create.cshtml
         {

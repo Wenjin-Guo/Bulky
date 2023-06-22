@@ -1,7 +1,7 @@
 ﻿using Bulky.DataAccess.Data;
 using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
-using Bulky.Models.ViewModels;
+using Bulky.Models.ProductVM;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -19,25 +19,26 @@ namespace BulkyWeb.Areas.Admin.Controllers
         public IActionResult Index()
         {
             List<Product> objProductList = _unitOfWork.Product.GetAll().ToList();
-           
+            
             return View(objProductList);
         }
 
         public IActionResult Create()
         {
             //use Projection in EF core to retrieve list of category name
-            IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category.GetAll().Select
-                (u => new SelectListItem
-                {
-                    Text = u.Name,
-                    Value = u.Id.ToString(),
-                });
-            ViewBag.CategoryList = CategoryList;
-            //ViewData["CategoryList"] = CategoryList;
-            ProductVM productVM = new()     //need to pass product to model
+            IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category
+               .GetAll().Select(u => new SelectListItem
+               {
+                   Text = u.Name,
+                   Value = u.Id.ToString()
+               });
+
+            //ViewBag.CategoryList = CategoryList;
+            ViewData["CategoryList"] = CategoryList;
+            ProductVM productVM = new()
             {
                 CategoryList = CategoryList,
-                Product = new Product(),
+                Product = new Product()
             };
             return View(productVM);
         }
@@ -54,7 +55,13 @@ namespace BulkyWeb.Areas.Admin.Controllers
             }
             else
             {
-                return View();
+                obj.CategoryList = _unitOfWork.Category
+               .GetAll().Select(u => new SelectListItem
+               {
+                   Text = u.Name,
+                   Value = u.Id.ToString()
+               });
+                return View(obj);
             }
         }
         public IActionResult Edit(int? id)
@@ -110,7 +117,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            _unitOfWork.Product.Delete(obj);
+            _unitOfWork.Product.Remove(obj);
             _unitOfWork.Save();
             TempData["success"] = "Product deleted successfully.";
             return RedirectToAction("Index");

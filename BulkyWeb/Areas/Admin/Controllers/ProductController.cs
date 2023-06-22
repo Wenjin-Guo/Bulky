@@ -1,6 +1,7 @@
 ﻿using Bulky.DataAccess.Data;
 using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
+using Bulky.Models.ProductVM;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -32,23 +33,35 @@ namespace BulkyWeb.Areas.Admin.Controllers
                    Value = u.Id.ToString()
                });
 
-            ViewBag.CategoryList = CategoryList;
-            return View();
+            //ViewBag.CategoryList = CategoryList;
+            ViewData["CategoryList"] = CategoryList;
+            ProductVM productVM = new()
+            {
+                CategoryList = CategoryList,
+                Product = new Product()
+            };
+            return View(productVM);
         }
         [HttpPost]
-        public IActionResult Create(Product obj)   //need to pass the object from create.cshtml
+        public IActionResult Create(ProductVM obj)   //need to pass the object from create.cshtml
         {
            
             if (ModelState.IsValid)
             {
-                _unitOfWork.Product.Add(obj);       //keep track of inputs needed to be add to the database
+                _unitOfWork.Product.Add(obj.Product);       //keep track of inputs needed to be add to the database
                 _unitOfWork.Save();              //in database create the product obj
                 TempData["success"] = "Product created successfully.";
                 return RedirectToAction("Index");   //redirect page to product Index.cshtml
             }
             else
             {
-                return View();
+                obj.CategoryList = _unitOfWork.Category
+               .GetAll().Select(u => new SelectListItem
+               {
+                   Text = u.Name,
+                   Value = u.Id.ToString()
+               });
+                return View(obj);
             }
         }
         public IActionResult Edit(int? id)

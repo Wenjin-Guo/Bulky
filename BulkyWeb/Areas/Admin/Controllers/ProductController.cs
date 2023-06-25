@@ -12,9 +12,11 @@ namespace BulkyWeb.Areas.Admin.Controllers
     {
         //ApplicationDbContext db = new ApplicationDbContext();
         private readonly IUnitOfWork _unitOfWork;
-        public ProductController(IUnitOfWork db)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public ProductController(IUnitOfWork db, IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork = db;
+            _webHostEnvironment = webHostEnvironment;
         }
         public IActionResult Index()
         {
@@ -54,9 +56,22 @@ namespace BulkyWeb.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Upsert(ProductVM obj, IFormFile? file)   //need to pass the object from create.cshtml
         {
-           
+            
             if (ModelState.IsValid)
             {
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                if (file != null)
+                {
+                    //save image to wwwwroot, and ImageURL to database
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string productPath = Path.Combine(wwwRootPath, @"images\product");
+                    using(var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                    obj.Product.ImageUrl = @"\images\product\" + fileName;
+                }
+
                 _unitOfWork.Product.Add(obj.Product);       //keep track of inputs needed to be add to the database
                 _unitOfWork.Save();              //in database create the product obj
                 TempData["success"] = "Product created successfully.";

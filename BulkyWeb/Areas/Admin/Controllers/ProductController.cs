@@ -65,14 +65,31 @@ namespace BulkyWeb.Areas.Admin.Controllers
                     //save image to wwwwroot, and ImageURL to database
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
                     string productPath = Path.Combine(wwwRootPath, @"images\product");
+
+                    if(!string.IsNullOrEmpty(obj.Product.ImageUrl))
+                    {
+                        //delete old image
+                        var oldImagePath = Path.Combine(wwwRootPath, obj.Product.ImageUrl.TrimStart('\\'));
+                        
+                        if(System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
                     using(var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
                     {
                         file.CopyTo(fileStream);
                     }
                     obj.Product.ImageUrl = @"\images\product\" + fileName;
                 }
-
-                _unitOfWork.Product.Add(obj.Product);       //keep track of inputs needed to be add to the database
+                if(obj.Product.Id == 0)
+                {
+                    _unitOfWork.Product.Add(obj.Product);       //keep track of inputs needed to be add to the database
+                }
+                else
+                {
+                    _unitOfWork.Product.Update(obj.Product);       //keep track of inputs needed to be add to the database
+                }
                 _unitOfWork.Save();              //in database create the product obj
                 TempData["success"] = "Product created successfully.";
                 return RedirectToAction("Index");   //redirect page to product Index.cshtml

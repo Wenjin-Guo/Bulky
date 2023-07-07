@@ -586,3 +586,8 @@ bg-success {
         }
        
 }
+
+
+.tox-notification {
+    display: none !important
+}

@@ -81,6 +81,21 @@ namespace Bulky.DataAccess.Data
                     Price100 = 13,
                     CategoryId = 3,
                     ImageUrl = "",
+                },
+
+                new Product
+                {
+                    Id = 5,
+                    Title = "Cup",
+                    Description = "sdafgrtuyrejs",
+                    UPCode = "SWD999905",
+                    Manufacturer = "Yiwu",
+                    ListPrice = 50,
+                    Price = 48,
+                    Price50 = 35,
+                    Price100 = 30,
+                    CategoryId = 3,
+                    ImageUrl = "",
                 }
 
             );

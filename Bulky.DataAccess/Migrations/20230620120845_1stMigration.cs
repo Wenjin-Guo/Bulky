@@ -7,7 +7,7 @@
 namespace Bulky.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class firstMigration : Migration
+    public partial class _1stMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -73,8 +73,7 @@ namespace Bulky.DataAccess.Migrations
                     { 1, 1, "Absolutely the best baby soap", "", 20.0, "Delta", 18.0, 13.0, 15.0, "Baby sope", "SWD999901" },
                     { 2, 1, "xcvwert3rsdf", "", 20.0, "Adidas", 18.0, 13.0, 15.0, "Bike", "SWD999902" },
                     { 3, 2, "e56cdzcwer5tdsfgdf", "", 20.0, "Spicy Pot", 18.0, 13.0, 15.0, "Rice cooker", "SWD999903" },
-                    { 4, 3, "sdafgrtuyrejs", "", 20.0, "Yiwu", 18.0, 13.0, 15.0, "T shirt", "SWD999904" },
-                    { 5, 3, "sdafgrtuyrejs", "", 50.0, "Yiwu", 48.0, 30.0, 35.0, "Cup", "SWD999905" }
+                    { 4, 3, "sdafgrtuyrejs", "", 20.0, "Yiwu", 18.0, 13.0, 15.0, "T shirt", "SWD999904" }
                 });
 
             migrationBuilder.CreateIndex(

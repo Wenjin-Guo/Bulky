@@ -173,20 +173,6 @@ namespace Bulky.DataAccess.Migrations
                             Price50 = 15.0,
                             Title = "T shirt",
                             UPCode = "SWD999904"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CategoryId = 3,
-                            Description = "sdafgrtuyrejs",
-                            ImageUrl = "",
-                            ListPrice = 50.0,
-                            Manufacturer = "Yiwu",
-                            Price = 48.0,
-                            Price100 = 30.0,
-                            Price50 = 35.0,
-                            Title = "Cup",
-                            UPCode = "SWD999905"
                         });
                 });
 

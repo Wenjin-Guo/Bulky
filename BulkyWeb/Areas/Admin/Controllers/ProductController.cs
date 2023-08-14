@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace BulkyWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = SD.Role_Admin)]
+    //[Authorize(Roles = SD.Role_Admin)]
     public class ProductController : Controller
     {
         //ApplicationDbContext db = new ApplicationDbContext();
@@ -90,13 +90,16 @@ namespace BulkyWeb.Areas.Admin.Controllers
                 if(obj.Product.Id == 0)
                 {
                     _unitOfWork.Product.Add(obj.Product);       //keep track of inputs needed to be add to the database
+                    _unitOfWork.Save();              //in database create the product obj
+                    TempData["success"] = "Product created successfully.";
                 }
                 else
                 {
                     _unitOfWork.Product.Update(obj.Product);       //keep track of inputs needed to be add to the database
+                    _unitOfWork.Save();              //in database create the product obj
+                    TempData["success"] = "Product updated successfully.";
                 }
-                _unitOfWork.Save();              //in database create the product obj
-                TempData["success"] = "Product created successfully.";
+                
                 return RedirectToAction("Index");   //redirect page to product Index.cshtml
             }
             else
@@ -111,7 +114,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
             }
         }
 
-        [HttpPost]
+        /*[HttpPost]
         public IActionResult Edit(ProductVM obj)   //need to pass the object from create.cshtml
         {
             if (ModelState.IsValid)
@@ -125,7 +128,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
             {
                 return View();
             }
-        }
+        }*/
        /* public IActionResult Delete(int? id)
         {
             if (id == null || id == 0)

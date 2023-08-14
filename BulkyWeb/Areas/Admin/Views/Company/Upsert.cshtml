@@ -1,0 +1,90 @@
+﻿@model Company
+
+<div class="card shadow boarder-0 my-4">
+    <div class="card-header bg-secondary bg-gradient my-lg-0 py-3" >
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2"> @(Model.Id!=0?"Update":"Create") Company</h2>
+            </div>
+        </div>
+    </div>
+
+
+
+ 
+<form method="post" enctype="multipart/form-data">
+    <input asp-for="Id" hidden />
+    <div class="row">
+        <div class="col-12">
+                <div class="border p-3">
+                    <div class="mb-3 row">
+                        <label asp-for="Name">Company Name</label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="StreetAddress">Street Address</label>
+                        <input asp-for="StreetAddress" class="form-control" />
+                        <span asp-validation-for="StreetAddress" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="City">City</label>
+                        <input asp-for="City" class="form-control" />
+                        <span asp-validation-for="City" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="Province">Province</label>
+                        <input asp-for="Province" class="form-control" />
+                        <span asp-validation-for="Province" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="PostalCode">Postal Code</label>
+                        <input asp-for="PostalCode" class="form-control" />
+                        <span asp-validation-for="PostalCode" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="PhoneNumber">Phone Number</label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-6">
+                            @if (Model.Id != 0)
+                            {
+                                <button type="submit" class="btn btn-primary form-control">Update</button>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn btn-primary form-control">Create</button>
+                            }
+
+                        </div>
+                        <div class="col-6">
+                            <a asp-controller="Company" asp-action="Index" class="btn btn-secondary border form-control">Back to List</a>
+                        </div>
+                    </div>
+                </div>
+                <div asp-validation-summary="All"></div>
+                @*<div asp-validation-summary="ModelOnly">Creation Failed: </div>*@
+        </div>
+        
+    </div>
+    
+
+    </form>
+    
+</div>
+    @section Scripts{
+        <script>
+    tinymce.init({
+      selector: 'textarea',
+      plugins: 'anchor autolink charmap codesample emoticons lists table visualblocks wordcountde',
+      toolbar: 'undo redo | blocks fontfamily fontsize | align lineheight | numlist bullist indent outdent | ',
+      
+    });
+  </script>
+        @{
+            <partial name="_ValidationScriptsPartial"/>
+        }
+    }

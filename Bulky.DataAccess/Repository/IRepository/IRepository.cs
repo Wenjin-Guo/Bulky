@@ -11,7 +11,9 @@ namespace Bulky.DataAccess.Repository.IRepository
     {
         //T - Category
         IEnumerable<T> GetAll(string? includeProperties = null);
-        T Get(Expression<Func<T, bool>> filter, string? includeProperties = null);
+        T Get(Expression<Func<T, bool>> filter, 
+            string? includeProperties = null,bool tracked= false); 
+        //last bool track make sure entity framework not track object that get from database
         void Add(T entity); 
         void Remove(T entity);
         void RemoveRange(IEnumerable<T> entities);

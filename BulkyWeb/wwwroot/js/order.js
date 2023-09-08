@@ -30,10 +30,10 @@ function loadDataTable(status) {
     dataTable = $('#tblData').DataTable({
         "ajax": { url: '/admin/order/getall?status='+status },
         "columns": [
-            { data: 'id', "width": "13%" },
-            { data: 'name', "width": "13%" },
-            { data: 'phoneNumber', "width": "13%" },
-            { data: 'applicationUser.email', "width": "13%" },
+            { data: 'id', "width": "3%" },
+            { data: 'name', "width": "18%" },
+            { data: 'phoneNumber', "width": "18%" },
+            { data: 'applicationUser.email', "width": "23%" },
             { data: 'orderStatus', "width": "13%" },
             { data: 'orderTotal', "width": "13%" },
             {
@@ -48,7 +48,7 @@ function loadDataTable(status) {
                        
                     </div>`
                 },
-                "width": "22%",
+                "width": "12%",
             }
         ]
     });

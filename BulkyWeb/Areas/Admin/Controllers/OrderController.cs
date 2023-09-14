@@ -74,6 +74,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
             else
             {
                 var claimsIdentity = (ClaimsIdentity)User.Identity;
+
                 var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
                 objOrderHeaders = _unitOfWork.OrderHeader.

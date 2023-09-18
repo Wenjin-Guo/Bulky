@@ -18,7 +18,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         [BindProperty]
-        public OrderVM orderVM { get; set; }
+        public OrderVM OrderVM { get; set; }
         public OrderController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;   
@@ -30,32 +30,32 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
         public IActionResult Details(int orderId)
         {
-            orderVM= new()
+            OrderVM= new()
             {
                 OrderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == orderId, includeProperties: "ApplicationUser"),
                 OrderDetail = _unitOfWork.OrderDetail.GetAll(u => u.OrderHeaderId == orderId, includeProperties: "Product"),
             };
-            return View(orderVM);
+            return View(OrderVM);
         }
 
         [HttpPost]
         [Authorize(Roles =SD.Role_Admin+","+SD.Role_Employee)]
         public IActionResult UpdateOrderDetail(int orderId)
         {
-            var orderHeaderFromDb = _unitOfWork.OrderHeader.Get(u => u.Id == orderVM.OrderHeader.Id);
-            orderHeaderFromDb.Name = orderVM.OrderHeader.Name;
-            orderHeaderFromDb.PhoneNumber = orderVM.OrderHeader.PhoneNumber;
-            orderHeaderFromDb.StreetAddress = orderVM.OrderHeader.StreetAddress;
-            orderHeaderFromDb.City = orderVM.OrderHeader.City;
-            orderHeaderFromDb.Province = orderVM.OrderHeader.Province;  
-            orderHeaderFromDb.PostalCode = orderVM.OrderHeader.PostalCode;
-            if (!string.IsNullOrEmpty(orderVM.OrderHeader.Carrier))
+            var orderHeaderFromDb = _unitOfWork.OrderHeader.Get(u => u.Id == OrderVM.OrderHeader.Id);
+            orderHeaderFromDb.Name = OrderVM.OrderHeader.Name;
+            orderHeaderFromDb.PhoneNumber = OrderVM.OrderHeader.PhoneNumber;
+            orderHeaderFromDb.StreetAddress = OrderVM.OrderHeader.StreetAddress;
+            orderHeaderFromDb.City = OrderVM.OrderHeader.City;
+            orderHeaderFromDb.Province = OrderVM.OrderHeader.Province;  
+            orderHeaderFromDb.PostalCode = OrderVM.OrderHeader.PostalCode;
+            if (!string.IsNullOrEmpty(OrderVM.OrderHeader.Carrier))
             {
-                orderHeaderFromDb.Carrier = orderVM.OrderHeader.Carrier;
+                orderHeaderFromDb.Carrier = OrderVM.OrderHeader.Carrier;
             }
-            if (!string.IsNullOrEmpty(orderVM.OrderHeader.TrackingNumber))
+            if (!string.IsNullOrEmpty(OrderVM.OrderHeader.TrackingNumber))
             {
-                orderHeaderFromDb.TrackingNumber= orderVM.OrderHeader.TrackingNumber;
+                orderHeaderFromDb.TrackingNumber= OrderVM.OrderHeader.TrackingNumber;
             }
             _unitOfWork.OrderHeader.Update(orderHeaderFromDb);
             _unitOfWork.Save();
@@ -67,19 +67,19 @@ namespace BulkyWeb.Areas.Admin.Controllers
         [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
         public IActionResult StartProcessing()
         {
-            _unitOfWork.OrderHeader.UpdateStatus(orderVM.OrderHeader.Id, SD.StatusInProcess);
+            _unitOfWork.OrderHeader.UpdateStatus(OrderVM.OrderHeader.Id, SD.StatusInProcess);
             _unitOfWork.Save();
             TempData["Success"] = "Order Details Updated Successfully.";
-            return RedirectToAction(nameof(Details), new {orderId = orderVM.OrderHeader.Id});
+            return RedirectToAction(nameof(Details), new {orderId = OrderVM.OrderHeader.Id});
         }
 
         [HttpPost]
         [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
         public IActionResult ShipOrder()
         {
-            var orderHeader = _unitOfWork.OrderHeader.Get(u=>u.Id == orderVM.OrderHeader.Id);
-            orderHeader.TrackingNumber = orderVM.OrderHeader.TrackingNumber;
-            orderHeader.Carrier = orderVM.OrderHeader.Carrier;
+            var orderHeader = _unitOfWork.OrderHeader.Get(u=>u.Id == OrderVM.OrderHeader.Id);
+            orderHeader.TrackingNumber = OrderVM.OrderHeader.TrackingNumber;
+            orderHeader.Carrier = OrderVM.OrderHeader.Carrier;
             orderHeader.OrderStatus = SD.StatusShipped;
             orderHeader.ShippingDate = DateTime.Now;
             if(orderHeader.PaymentStatus == SD.PaymentStatusDelayedPayment)
@@ -89,14 +89,14 @@ namespace BulkyWeb.Areas.Admin.Controllers
             _unitOfWork.OrderHeader.Update(orderHeader);
             _unitOfWork.Save();
             TempData["Success"] = "Order Shipped Successfully.";
-            return RedirectToAction(nameof(Details), new { orderId = orderVM.OrderHeader.Id });
+            return RedirectToAction(nameof(Details), new { orderId = OrderVM.OrderHeader.Id });
         }
 
         [HttpPost]
         [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
         public IActionResult CancelOrder()
         {
-            var orderHeader = _unitOfWork.OrderHeader.Get(u=>u.Id==orderVM.OrderHeader.Id);
+            var orderHeader = _unitOfWork.OrderHeader.Get(u=>u.Id==OrderVM.OrderHeader.Id);
 
             if (orderHeader.PaymentStatus == SD.PaymentStatusApproved)
             {
@@ -116,17 +116,17 @@ namespace BulkyWeb.Areas.Admin.Controllers
             }
             _unitOfWork.Save();
             TempData["success"] = "order Cancelled Successfully.";
-            return RedirectToAction(nameof(Details), new {orderId = orderVM.OrderHeader.Id});   
+            return RedirectToAction(nameof(Details), new {orderId = OrderVM.OrderHeader.Id});   
         }
 
         [ActionName("Details")]
         [HttpPost]
         public IActionResult Details_Pay_Now()
         {
-            orderVM.OrderHeader = _unitOfWork.OrderHeader
-                .Get(u=>u.Id== orderVM.OrderHeader.Id, includeProperties:"ApplicationUser");
-            orderVM.OrderDetail = _unitOfWork.OrderDetail
-                .GetAll(u => u.OrderHeaderId == orderVM.OrderHeader.Id, includeProperties: "Product");
+            OrderVM.OrderHeader = _unitOfWork.OrderHeader
+                .Get(u=>u.Id== OrderVM.OrderHeader.Id, includeProperties:"ApplicationUser");
+            OrderVM.OrderDetail = _unitOfWork.OrderDetail
+                .GetAll(u => u.OrderHeaderId == OrderVM.OrderHeader.Id, includeProperties: "Product");
 
             
             //stripe logic
@@ -134,13 +134,13 @@ namespace BulkyWeb.Areas.Admin.Controllers
             var domain = "https://localhost:7094/";
             var options = new SessionCreateOptions
             {
-                SuccessUrl = domain + $"admin/order/PaymentConfirmation?orderHearderId={orderVM.OrderHeader.Id}",
-                CancelUrl = domain + $"admin/order/details?orderId={orderVM.OrderHeader.Id}",
+                SuccessUrl = domain + $"admin/order/PaymentConfirmation?orderHearderId={OrderVM.OrderHeader.Id}",
+                CancelUrl = domain + $"admin/order/details?orderId={OrderVM.OrderHeader.Id}",
                 LineItems = new List<SessionLineItemOptions>(),
                 Mode = "payment",
             };
 
-            foreach (var item in orderVM.OrderDetail)
+            foreach (var item in OrderVM.OrderDetail)
             {
                 var SessionLineItem = new SessionLineItemOptions
                 {
@@ -159,7 +159,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
             };
             var service = new SessionService();
             Session session = service.Create(options);
-            _unitOfWork.OrderHeader.UpdateStripePaymentID(orderVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
+            _unitOfWork.OrderHeader.UpdateStripePaymentID(OrderVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
             _unitOfWork.Save();
 
             Response.Headers.Add("Location", session.Url);

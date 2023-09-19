@@ -134,7 +134,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
             var domain = "https://localhost:7094/";
             var options = new SessionCreateOptions
             {
-                SuccessUrl = domain + $"admin/order/PaymentConfirmation?orderHearderId={OrderVM.OrderHeader.Id}",
+                SuccessUrl = domain + $"admin/order/PaymentConfirmation?orderHeaderId={OrderVM.OrderHeader.Id}",
                 CancelUrl = domain + $"admin/order/details?orderId={OrderVM.OrderHeader.Id}",
                 LineItems = new List<SessionLineItemOptions>(),
                 Mode = "payment",
